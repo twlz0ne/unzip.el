@@ -36,18 +36,23 @@
 (require 'async)
 
 (defun unzip--copy-commands (from to)
-  (format
-   (cond ((executable-find "cp") "bash -c 'mkdir -p %2$s && cp -R %1$s %2$s'")
-         ((executable-find "powershell") (error "No implement!"))
-         (t (error "No copy tool found!")))
-   from to))
+  (cond
+   ((executable-find "cp")
+    (format "bash -c 'mkdir -p %s && cp -R %s %s'"
+            to from to))
+   ((executable-find "powershell")
+    (error "No implement!"))
+   (t (error "No copy tool found!"))))
 
 (defun unzip--unzip-commands (from to)
-  (format
-   (cond ((executable-find "unzip") "bash -c 'mkdir -p %2$s && unzip -qq %1$s -d %2$s'")
-         ((executable-find "powershell") "powershell -noprofile -noninteractive -nologo -ex bypass Expand-Archive -path '%s' -dest '%s'")
-         (t (error "No unzip tool found!")))
-   from to))
+  (cond
+   ((executable-find "unzip")
+    (format "bash -c 'mkdir -p %s && unzip -qq %s -d %s'"
+            to from to))
+   ((executable-find "powershell")
+    (format "powershell -noprofile -noninteractive -nologo -ex bypass Expand-Archive -path '%s' -dest '%s'"
+            from to))
+   (t (error "No unzip tool found!"))))
 
 (defun unzip--copy-file (from &optional to)
   (let ((to (or to (make-temp-file "temp-file--" nil ".zip"))))
