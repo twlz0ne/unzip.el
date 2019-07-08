@@ -28,7 +28,9 @@
 (defvar unzip-test-output-dir "/tmp/emacs-unzip-test")
 
 (cl-defun unzip-sync-test (from to &key strip-component overwrite &allow-other-keys)
-  (delete-directory to t)
+  (ignore-errors
+    (delete-directory to t))
+  (mkdir unzip-test-output-dir t)
   (unzip from
          to
          :strip-component strip-component
@@ -38,7 +40,9 @@
 (cl-defun unzip-async-test (from to &key strip-component overwrite async-finish-fn &allow-other-keys)
   (let ((async-finished-p nil)
         (async-result nil))
-    (delete-directory to t)
+    (ignore-errors
+      (delete-directory to t))
+    (mkdir unzip-test-output-dir t)
     (unzip from
            to
            :strip-component strip-component
