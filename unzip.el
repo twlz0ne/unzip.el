@@ -78,8 +78,7 @@
 If STRIP-COMPONENT greater than 0, remove the specified number of leading path elements.
 If OVERWRITE not nil, overwrite output dir.
 If async-finish-fn not nil, start async and call back when finishes (or 
-just give a `t' if there is nothing todo.)
-"
+just give a `t' if there is nothing todo.)"
   (when (and (file-exists-p to) (not overwrite))
     (error (format "Target file '%s' already exists!" to)))
   (if async-finish-fn
@@ -88,8 +87,6 @@ just give a `t' if there is nothing todo.)
           ,@(mapcar (lambda (sym) `(fset ',sym #',(symbol-function sym)))
                     '(unzip--copy-commands
                       unzip--unzip-commands
-                      shell-command-async
-                      shell-command
                       unzip--copy-file
                       unzip-1))
           (unzip-1 ,from ,to ,strip-component ,overwrite))

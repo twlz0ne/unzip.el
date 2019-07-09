@@ -150,10 +150,6 @@
       (and (file-exists-p (concat unzip-test-output-dir "/README.md"))
            (file-exists-p (concat unzip-test-output-dir "/LICENSE")))))))
 
-(cl-defun func (&rest body
-                      &key foo
-                      bar))
-
 (provide 'unzip-test)
 
 ;;; unzip-test.el ends here
