@@ -85,7 +85,7 @@ just give a `t' if there is nothing todo.)
   (if async-finish-fn
       (async-start
        `(lambda ()
-          ,@(mapcar (lambda (sym) `(fset ',sym ,(symbol-function sym)))
+          ,@(mapcar (lambda (sym) `(fset ',sym #',(symbol-function sym)))
                     '(unzip--copy-commands
                       unzip--unzip-commands
                       shell-command-async
